@@ -10,11 +10,12 @@ import time
 def get_raw_training_data(filename):
     list_of_dictionaries = [] 
     with open(filename, newline='') as csvfile:
-    reader = csv.DictReader(csvfile)
-    for row in reader:
-        character = row['character'].strip.()lower()
-        line = row['line'].strip.()lower()
-        list_of_dictionaries.append({'character': character, 'line': line})
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            character = row['character'].strip.()lower()
+            line = row['line'].strip.()lower()
+            list_of_dictionaries.append({'character': character, 'line': line})
+    return list_of_dictionaries
 
 
 def preprocess_words(words, stemmer):
@@ -39,7 +40,7 @@ def organize_raw_training_data(raw_training_data, stemmer):
         tokens = nltk.word_tokenize(thingy['line'])
 
         words.extend(tokens)
-        documents.append(tokens, thingy['line'])
+        documents.append(tokens, thingy['character'])
         if thingy['character'] not in classes:
             classes.append(thingy['character'])
 
@@ -65,7 +66,7 @@ def create_training_data(words, classes, documents):
     
         # Not sure if this right terminology/process
         output_row = output_col[:]
-        output_row = [classes.index(character)] = 1
+        output_row[classes.index(character)] = 1
         output.append(output_row)
 
     return training_data, output
