@@ -36,20 +36,20 @@ def organize_raw_training_data(raw_training_data, stemmer):
     classes = []
 
     for thingy in raw_training_data:
-        tokens = nltk.word_tokenize(entry['l'])
+        tokens = nltk.word_tokenize(thingy['line'])
 
         words.extend(tokens)
-        documents.append(tokens, entry['line'])
-        if entry['character'] not in classes:
-            classes.append(entry['character'])
+        documents.append(tokens, thingy['line'])
+        if thingy['character'] not in classes:
+            classes.append(thingy['character'])
 
     words = preprocess_words(words, stemmer)
     return words, classes, documents
 
 
-# def create_training_data(words, classes, documents):
-#     training_data = []
-#     output = []
+def create_training_data(words, classes, documents):
+    training_data = []
+    output = []
 
 def sigmoid(z):
     denominator = 1 + np.exp(-z)
