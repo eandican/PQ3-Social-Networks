@@ -48,7 +48,7 @@ def organize_raw_training_data(raw_training_data, stemmer):
     return words, classes, documents
 
 
-def create_training_data(words, classes, documents):
+def create_training_data(words, classes, documents, stemmer):
     training_data = []
     output = []
 
@@ -63,6 +63,7 @@ def create_training_data(words, classes, documents):
                 bag.append(1)
             else:
                 bag.append(0)
+        training_data.append(bag)
     
         # Not sure if this right terminology/process
         output_row = output_col[:]
