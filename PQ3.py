@@ -119,7 +119,7 @@ def start_training(words, classes, training_data, output):
     X = np.array(training_data)
     y = np.array(output)
 
-    train(X, y, words, classes, hidden_neurons=10, alpha=0.1, epochs=10000)
+    train(X, y, words, classes, hidden_neurons=10, alpha=0.3, epochs=8500)
 
     elapsed_time = time.time() - start_time
     print("Processing time:", elapsed_time, "seconds")
