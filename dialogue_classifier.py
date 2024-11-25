@@ -90,8 +90,10 @@ def sigmoid(z):
     denominator = 1 + np.exp(-z)
     return 1 / denominator
 
+
 def sigmoid_output_to_derivative(output):
     return output * (1-output)
+
 
 def main():
     stemmer = LancasterStemmer()
@@ -108,7 +110,10 @@ def main():
         "Go U Bears! We are the storm.",
         "Blood for the blood god!",
         "No soul can escape me.",
-        "Party time. Heheheha!"
+        "Party time. Heheheha!",
+        "Hi, little guy. This'll be messy.",
+        "I'm armed and ready. Nobody escapes. Any last words?",
+        "Yes! Yes! Yes! Let the storm follow in my wake. Yes!"
     ]
 
     for sentence in sentences_to_classify:
