@@ -1,3 +1,10 @@
+"""
+PQ3 -- Dialogue Classifier
+James McGowan
+Emre Andican
+Afamdi Achufusi
+"""
+
 import nltk
 from nltk.stem.lancaster import LancasterStemmer
 import os
@@ -6,16 +13,22 @@ import datetime
 import csv
 import numpy as np
 import time
+from PQ3 import start_training, classify
+
+nltk.download('punkt_tab')
 
 def get_raw_training_data(filename):
     list_of_dictionaries = [] 
     with open(filename, newline='') as csvfile:
-        reader = csv.DictReader(csvfile)
+        # Specify the column names manually since the file has no headers
+        reader = csv.DictReader(csvfile, fieldnames=['character', 'line'])
         for row in reader:
-            character = row['character'].strip.()lower()
-            line = row['line'].strip.()lower()
+            # Process each row
+            character = row['character'].strip().lower()
+            line = row['line'].strip().lower()
             list_of_dictionaries.append({'character': character, 'line': line})
     return list_of_dictionaries
+
 
 
 def preprocess_words(words, stemmer):
@@ -40,7 +53,7 @@ def organize_raw_training_data(raw_training_data, stemmer):
         tokens = nltk.word_tokenize(thingy['line'])
 
         words.extend(tokens)
-        documents.append(tokens, thingy['character'])
+        documents.append((tokens, thingy['character']))
         if thingy['character'] not in classes:
             classes.append(thingy['character'])
 
@@ -80,9 +93,27 @@ def sigmoid(z):
 def sigmoid_output_to_derivative(output):
     return output * (1-output)
 
-if __name__ == "__main__":
+def main():
     stemmer = LancasterStemmer()
     raw_training_data = get_raw_training_data('league_quotes_abbreviated.csv')
     words, classes, documents = organize_raw_training_data(raw_training_data, stemmer)
     training_data, output = create_training_data(words, classes, documents, stemmer)
+
+    start_training(words, classes, training_data, output)
+    
+    sentences_to_classify = [
+        "The power of the wild is before you!",
+        "The dark star hungers for your soul.",
+        "Ow...my groove...",
+        "Go U Bears! We are the storm.",
+        "Blood for the blood god!",
+        "No soul can escape me.",
+        "Party time. Heheheha!"
+    ]
+
+    for sentence in sentences_to_classify:
+        classify(words, classes, sentence)
+
+
+if __name__ == "__main__":
     main()

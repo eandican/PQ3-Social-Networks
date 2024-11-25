@@ -1,4 +1,12 @@
 """TODO: add more here..."""
+import time
+import numpy as np
+import datetime
+import json
+from nltk.stem.lancaster import LancasterStemmer
+import nltk
+
+
 
 """* * * TRAINING * * *"""
 def init_synapses(X, hidden_neurons, classes):
@@ -111,7 +119,7 @@ def start_training(words, classes, training_data, output):
     X = np.array(training_data)
     y = np.array(output)
 
-    train(X, y, words, classes, hidden_neurons=20, alpha=0.1, epochs=100000)
+    train(X, y, words, classes, hidden_neurons=10, alpha=0.1, epochs=10000)
 
     elapsed_time = time.time() - start_time
     print("Processing time:", elapsed_time, "seconds")
@@ -167,6 +175,12 @@ def classify(words, classes, sentence):
     print("\nSentence to classify: {0}\nClassification: {1}".format(sentence, return_results))
     return return_results
 
+def sigmoid(z):
+    denominator = 1 + np.exp(-z)
+    return 1 / denominator
+
+def sigmoid_output_to_derivative(output):
+    return output * (1-output)
 
 def main():
     """TODO: more instructions here..."""
